@@ -22,15 +22,17 @@ export default class Tweet extends React.Component {
   }
 
   ready = (tw, element, done) => {
-    const { tweetId, options, onLoad } = this.props
+    const { tweetId, options, onLoad, onError } = this.props
 
     // Options must be cloned since Twitter Widgets modifies it directly
-    tw.widgets.createTweet(tweetId, element, cloneDeep(options))
-    .then(() => {
-      // Widget is loaded
-      done()
-      onLoad()
-    })
+    tw.widgets
+      .createTweet(tweetId, element, cloneDeep(options))
+      .then(() => {
+        // Widget is loaded
+        done()
+        onLoad()
+      })
+      .catch(onError)
   }
 
   render() {
